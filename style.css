@@ -26,9 +26,79 @@
 }
 
 .Title {
-    color: #1e837c;
+    font-size: 3rem; /* Larger font size for better visibility */
+    color: #2c6e57; /* Slightly darker shade of green for better contrast */
     text-align: center;
+    font-weight: 700; 
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    margin-top: 10px; 
+    margin-bottom: 10px;
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
 }
+
+.Title:hover {
+    transform: translateY(-5px); /* Makes the title pop upwards when hovered */
+    color: #1e837c; /* Changes the title color on hover */
+}
+
+
+.About {
+    background-color: #eef8ff; /* Light background for contrast */
+    padding: 40px 20px; /* Padding for spacing */
+    margin: 20px auto; /* Center the section */
+    max-width: 800px; /* Limit the width of the section */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for a lifted effect */
+    text-align: center; /* Center align the text */
+}
+
+.About h2 {
+    font-size: 2.5rem; /* Larger font size for the heading */
+    color: #1b7670; /* Darker green for contrast */
+    margin-bottom: 20px; /* Space below the heading */
+    font-weight: 600; /* Bold font for emphasis */
+}
+
+.About p {
+    font-size: 1.2rem; /* Slightly larger text for readability */
+    color: #1e837c;
+    line-height: 1.6; /* Spacing between lines */
+    max-width: 1000px;
+    margin: 0 auto; /* Center the paragraph */
+}
+
+.chatbot-invite button {
+    background-color: #1e837c;
+    color: white;
+    padding: 12px 24px; /* Add padding for better size */
+    font-size: 1.2rem;
+    margin-top: 1%;
+    border: none; /* Remove default border */
+    border-radius: 8px; /* Rounded corners for a smoother look */
+    cursor: pointer; /* Make it clear the button is clickable */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover transition */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a soft shadow for depth */
+}
+
+.chatbot-invite button:hover {
+    background-color: #147a66; /* Slightly darker color on hover */
+    transform: scale(1.05); /* Slight scale effect for button focus */
+}
+
+.chatbot-invite button:focus {
+    outline: 2px solid #1e837c; /* Highlight the button when focused */
+    outline-offset: 2px;
+}
+
+.separator {
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #1e837c, transparent); /* Thinning effect */
+    margin: 20px 0;
+}
+
 
 #chatbot-toggler {
     position: fixed;
@@ -374,6 +444,13 @@ body.show-emoji-picker em-emoji-picker {
 
 /* Responsive media query for mobile screens */
 @media (max-width: 520px) {
+    .logo {
+        width: 40vw; /* Even more scaling for very small screens */
+    }
+    .Title {
+        font-size: 8vw; /* Increase title size on very small screens */
+    }
+
     #chatbot-toggler {
         right: 20px;
         bottom: 20px;
