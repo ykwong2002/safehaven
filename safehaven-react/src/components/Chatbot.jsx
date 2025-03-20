@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { getGeminiResponse } from '../services/gemini';
 import './Chatbot.css';
 
 const Chatbot = ({ isOpen, onClose }) => {
@@ -15,6 +16,7 @@ Take your time - this is your moment, and I'm here to support you. What's on you
   const [inputMessage, setInputMessage] = useState('');
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [fileUploaded, setFileUploaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const chatBodyRef = useRef(null);
 
   useEffect(() => {
@@ -23,20 +25,32 @@ Take your time - this is your moment, and I'm here to support you. What's on you
     }
   }, [messages]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!inputMessage.trim()) return;
+    if (!inputMessage.trim() || isLoading) return;
 
-    setMessages(prev => [...prev, { type: 'user', content: inputMessage }]);
+    const userMessage = inputMessage.trim();
     setInputMessage('');
-    // Here you would typically make an API call to your chatbot backend
-    // For now, we'll just simulate a response
-    setTimeout(() => {
+    setMessages(prev => [...prev, { type: 'user', content: userMessage }]);
+    setIsLoading(true);
+
+    try {
+      const botResponse = await getGeminiResponse(userMessage);
+      setMessages(prev => [...prev, { type: 'bot', content: botResponse }]);
+    } catch (error) {
+      console.error('Error getting response:', error);
       setMessages(prev => [...prev, { 
         type: 'bot', 
-        content: "I hear you, and I'm here to support you. Would you like to tell me more about what's on your mind?" 
+        content: "I apologize, but I'm having trouble processing your message right now. Would you like to try again?" 
       }]);
-    }, 1000);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleEmojiSelect = (emoji) => {
+    setInputMessage(prev => prev + emoji.native);
+    setShowEmojiPicker(false);
   };
 
   const handleFileUpload = (e) => {
@@ -49,14 +63,14 @@ Take your time - this is your moment, and I'm here to support you. What's on you
 
   return (
     <>
-      <button 
-        id="chatbot-toggler" 
-        onClick={onClose}
-        className={isOpen ? 'show' : ''}
-      >
-        <span className="material-symbols-rounded">hearing</span>
-        <span className="material-symbols-rounded">close</span>
-      </button>
+      {!isOpen && (
+        <button 
+          id="chatbot-toggler" 
+          onClick={() => onClose()}
+        >
+          <span className="material-symbols-rounded">hearing</span>
+        </button>
+      )}
 
       <div className={`chatbot-popup ${isOpen ? 'show' : ''}`}>
         <div className="chat-header">

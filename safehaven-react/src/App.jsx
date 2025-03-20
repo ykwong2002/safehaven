@@ -7,19 +7,15 @@ import './App.css'
 function App() {
   const [isChatbotOpen, setIsChatbotOpen] = useState(false)
 
-  const handleOpenChatbot = () => {
-    setIsChatbotOpen(true)
-  }
-
-  const handleCloseChatbot = () => {
-    setIsChatbotOpen(false)
+  const handleToggleChatbot = () => {
+    setIsChatbotOpen(prev => !prev)
   }
 
   return (
     <div className="app">
       <Navbar />
-      <About onOpenChatbot={handleOpenChatbot} />
-      <Chatbot isOpen={isChatbotOpen} onClose={handleCloseChatbot} />
+      <About onOpenChatbot={handleToggleChatbot} />
+      <Chatbot isOpen={isChatbotOpen} onClose={handleToggleChatbot} />
     </div>
   )
 }
